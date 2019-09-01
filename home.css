@@ -1,17 +1,9 @@
-#screen {
-	display: block;
+body {
 	margin: 0 auto;
-	padding: 0px;
-	position: relative;
-	}
-
-#container {
-	display: inline-block;
-	border: 3px solid black;
 }
 
 #canvas {
-	display: inline-block;
+	/*display: inline-block;*/
 	border: 1px solid black;
 	/*position: absolute;
 	top: 50%;
@@ -21,22 +13,11 @@
 	height: 200px;*/
 }
 
-#tools {
-	display: inline-block;
-	/*position: absolute;*/
-	/*top: 0px;
-	right: 0px;*/
-	/*text-align: center;*/
-	/*margin: 0 auto;*/
-	/*float: right;*/
-	background: grey;
-	/*height: 200px;*/
-}
 
-#tools ul {
-	display: inline-block;
-	list-style-type: none;
-	text-align: center;
-	margin: 0 auto;
-	padding: 0;
+
+#info {
+	diplay: inline-block;
+	/*position: absolute;*/
+	/*float: right;*/
+	/*left: 500px;*/
 }
