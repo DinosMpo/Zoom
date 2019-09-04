@@ -17,7 +17,7 @@ let lastY = 0;
 let mouseX = 0;
 let mouseY = 0;
 let dragged = 0; //den xrhsimopoieitai kapoou
-let dragStart = 0;
+let dragStart = {x:0,y:0};
 let myLimit = 200;
 let limitTop = myLimit;
 let limitLeft = myLimit;
@@ -62,7 +62,6 @@ function redraw() {
 	ctx.fillStyle = 'green';
 	ctx.fillText("Hello world!", 200, 200);
 	// ctx.restore();
-	
 }
 
 //diaxeirish otan ginetai scroll
@@ -76,8 +75,8 @@ function handleScroll(event) {
 			zoom(scaleFactor, translatePos);
 			translatePos.x = -((scaleFactor*translatePos.x)-translatePos.x);
 			translatePos.y = -((scaleFactor*translatePos.y)-translatePos.y);
-			console.log("translatePos.x: "+translatePos.x);
-			console.log("translatePos.y: "+translatePos.y);
+			// console.log("translatePos.x: "+translatePos.x);
+			// console.log("translatePos.y: "+translatePos.y);
 		}
 	}else if(event.deltaY == 3) { //zoom out
 		if(scaleFactor > 1) {
@@ -89,8 +88,8 @@ function handleScroll(event) {
 			zoom(scaleFactor, translatePos);
 			translatePos.x = -((scaleFactor*translatePos.x)-translatePos.x);
 			translatePos.y = -((scaleFactor*translatePos.y)-translatePos.y);
-			console.log("translatePos.x: "+translatePos.x);
-			console.log("translatePos.y: "+translatePos.y);
+			// console.log("translatePos.x: "+translatePos.x);
+			// console.log("translatePos.y: "+translatePos.y);
 		}
 	}
 }
@@ -130,7 +129,6 @@ function drag(translatePos) {
 	ctx.scale(scaleFactor,scaleFactor);
 	// ctx.translate(-translatePos.x, -translatePos.y); //auto eftiakse to problhma pou eixa me to zoom gia to drag
 	redraw();
-	console.log(translatePos.x);
 	ctx.restore();
 
 }
@@ -151,43 +149,43 @@ function dragControl() {
 	//--- 50   >     5         &&    50    >     5         &&     450   <
 	if(limitTop>translatePos.y && limitLeft>translatePos.x && limitRight<(translatePos.x+(scaleFactor*canvas.width)) && limitBottom<(translatePos.y+(scaleFactor*canvas.height))) {
 		drag(translatePos);
-		trackTransforms(translatePos.x, translatePos.y, 0, 0);
+		trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height)); //prepei na apo8hkeuw kai to width kai height
 	}else if(limitTop<=translatePos.y && limitLeft<=translatePos.x) { //an ksepernaei to panw kai to aristero orio
 		translatePos.x = originX;
 		translatePos.y = originY;
 		drag(translatePos);
-		trackTransforms(translatePos.x, translatePos.y, 0, 0);
+		trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height));
 	}else if(limitTop<=translatePos.y && limitRight>=(translatePos.x+(scaleFactor*limitRight))) { //an ksepernaei to panw kai to deksio orio
 		translatePos.x = originX;
 		translatePos.y = originY;
 		drag(translatePos);
-		trackTransforms(translatePos.x, translatePos.y, 0, 0);
+		trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height));
 	}else if(limitRight>=(translatePos.x+(scaleFactor*limitRight)) && limitBottom>=(translatePos.y+(scaleFactor*limitBottom))) { //an ksepernaei to deksio kai to katw orio
 		translatePos.x = originX;
 		translatePos.y = originY;
 		drag(translatePos);
-		trackTransforms(translatePos.x, translatePos.y, 0, 0);
+		trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height));
 	}else if(limitBottom>=(translatePos.y+(scaleFactor*limitBottom)) && limitLeft<=translatePos.x) { //an ksepernaei to katw kai to aristero orio
 		translatePos.x = originX;
 		translatePos.y = originY;
 		drag(translatePos);
-		trackTransforms(translatePos.x, translatePos.y, 0, 0);
+		trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height));
 	}else if(limitTop<=translatePos.y) { //an ksepernaei mono to panw orio
 		translatePos.y = originY;
 		drag(translatePos);
-		trackTransforms(translatePos.x, translatePos.y, 0, 0);
+		trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height));
 	}else if(limitLeft<=translatePos.x) { //an ksepernaei to aristero orio
 		translatePos.x = originX;
 		drag(translatePos);
-		trackTransforms(translatePos.x, translatePos.y, 0, 0);
+		trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height));
 	}else if(limitRight>=(translatePos.x+(scaleFactor*canvas.width))) { //an ksepernaei to deksio orio
 		translatePos.x = originX;//-((scaleFactor*canvas.width)-canvas.width)/scaleFactor;
 		drag(translatePos);
-		trackTransforms(translatePos.x, translatePos.y, 0, 0);
+		trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height));
 	}else if(limitBottom>=(translatePos.y+(scaleFactor*limitBottom))) { //an ksepernaei to katw orio
 		translatePos.y = originY;
 		drag(translatePos);
-		trackTransforms(translatePos.x, translatePos.y, 0, 0);
+		trackTransforms(translatePos.x, translatePos.y, translatePos.x+(scaleFactor*canvas.width), translatePos.y+(scaleFactor*canvas.height));
 	}
 }
 

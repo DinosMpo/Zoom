@@ -1,11 +1,5 @@
 "use strict";
 
-// let topControl = document.getElementById('top');
-// let leftControl = document.getElementById('left');
-// let rightControl = document.getElementById('right');
-// let bottomControl = document.getElementById('bottom');
-// let mouseX = 0;
-// let mouseY = 0;
 let activeDragControl;
 
 $(canvas).mousemove( (event) => {
@@ -13,8 +7,8 @@ $(canvas).mousemove( (event) => {
 	mouseY = event.offsetY || (event.pageY - canvas.offsetTop);
 	mousePositionX.innerHTML = mouseX;
 	mousePositionY.innerHTML = mouseY;
-	dragged = true;
-	if (dragStart){
+	// dragged = true;
+	if (dragged){
 		dragControl();
 	}
 
@@ -23,7 +17,6 @@ $(canvas).mousemove( (event) => {
 		$(leftControl).hide();
 		$(rightControl).hide();
 		$(bottomControl).hide();
-
 		dragControl();
 	}
 });
@@ -32,21 +25,45 @@ canvas.addEventListener('mousedown',function(evt){
 	// document.body.style.mozUserSelect = document.body.style.webkitUserSelect = document.body.style.userSelect = 'none'; //auto den kserw ti kanei
 	lastX = evt.offsetX || (evt.pageX - canvas.offsetLeft);
 	lastY = evt.offsetY || (evt.pageY - canvas.offsetTop);
-	dragStart = {
-		x: 0,
-		y: 0
-	} 
 	if(isNaN(translatePos.x)) {
 		translatePos.x = 0;
 		translatePos.y = 0;
 	}
-	dragStart.x = lastX - translatePos.x;// - translatePos.x;//(translatePos.x*scaleFactor);
-	dragStart.y = lastY - translatePos.y;// - translatePos.y;//(translatePos.y*scaleFactor);
-	dragged = false;
+
+	if(lastX<originX) {
+		// console.log('douleuei1');
+		dragStart.x = lastX - translatePos.x;// - translatePos.x;//(translatePos.x*scaleFactor);
+		dragStart.y = lastY - translatePos.y;// - translatePos.y;//(translatePos.y*scaleFactor);
+		dragged = true;
+	}else if(lastY<originY) {
+		// console.log('douleuei2');
+		dragStart.x = lastX - translatePos.x;// - translatePos.x;//(translatePos.x*scaleFactor);
+		dragStart.y = lastY - translatePos.y;// - translatePos.y;//(translatePos.y*scaleFactor);
+		dragged = true;
+	}else if(lastX>originWidth) {
+		// console.log('douleuei3');
+		dragStart.x = lastX - translatePos.x;// - translatePos.x;//(translatePos.x*scaleFactor);
+		dragStart.y = lastY - translatePos.y;// - translatePos.y;//(translatePos.y*scaleFactor);
+		dragged = true;
+	}else if(lastY>originHeight) {
+		// console.log('douleuei4');
+		dragStart.x = lastX - translatePos.x;// - translatePos.x;//(translatePos.x*scaleFactor);
+		dragStart.y = lastY - translatePos.y;// - translatePos.y;//(translatePos.y*scaleFactor);
+		dragged = true;
+	}else{
+		console.log('den ginetai drag');
+	} 
+
+	// dragStart = {
+	// 	x: 0,
+	// 	y: 0
+	// } 
+	// dragStart.x = lastX - translatePos.x;// - translatePos.x;//(translatePos.x*scaleFactor);
+	// dragStart.y = lastY - translatePos.y;// - translatePos.y;//(translatePos.y*scaleFactor);
 },false);
 
 canvas.addEventListener("mouseup", function(evt) {
-	dragStart = null;
+	dragged = false;
 
 	// gia ta drag controls
 	if(activeDragControl) {
@@ -59,7 +76,15 @@ canvas.addEventListener("mouseup", function(evt) {
 },false);
 
 canvas.addEventListener("mouseout", function(evt) {
-	dragStart = null;
+	dragged = false;
+	// gia ta drag controls
+	if(activeDragControl) {
+		$(topControl).show();
+		$(leftControl).show();
+		$(rightControl).show();
+		$(bottomControl).show();
+		activeDragControl = null;
+	}
 },false);
 
 canvas.addEventListener("mouseover", function(evt) {
@@ -76,21 +101,11 @@ canvas.addEventListener("mouseover", function(evt) {
 		}
 		dragStart.x = lastX - translatePos.x;// - translatePos.x;//(translatePos.x*scaleFactor);
 		dragStart.y = lastY - translatePos.y;// - translatePos.y;//(translatePos.y*scaleFactor);
-		dragged = false;
+		dragged = true;
 	}
 },false);
 
 canvas.addEventListener("wheel", handleScroll, false);
-
-
-
-
-
-
-
-
-
-
 
 //ftiaxnw prwta thn ulopoihsh gia to top kai meta gia ta alla
 topControl.addEventListener('mousemove', function(event) {
